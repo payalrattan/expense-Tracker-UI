@@ -1,0 +1,95 @@
+.homepageContainer {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.infoSection {
+  flex: 1;
+  background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+  color: white;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginSection {
+  flex: 1;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+}
+
+.loginSection h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.loginSection label {
+  display: block;
+  margin: 0.5rem 0 0.2rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.loginSection input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.loginSection input:focus {
+  border-color: #6c63ff;
+}
+
+.loginSection button {
+  width: 100%;
+  padding: 10px;
+  background: #6c63ff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.loginSection button:hover {
+  background: #574bdb;
+}
+
+.loginSection a {
+  display: block;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: #6c63ff;
+  font-weight: 500;
+}
+
+.loginSection a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .homepageContainer {
+    flex-direction: column;
+  }
+
+  .infoSection,
+  .loginSection {
+    width: 100%;
+    padding: 3rem 2rem;
+  }
+
+  .infoSection h1 {
+    font-size: 2rem;
+  }
+}
