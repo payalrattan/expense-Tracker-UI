@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { registerServices } from "@/services/user-services/userServices";
+import { UserVM } from "@/models/user/userVM";
 
 export const RegisterForm = () => {
   const [username, setUsername] = useState("");
@@ -10,56 +12,60 @@ export const RegisterForm = () => {
   const [rePassword, setRePassword] = useState("");
 
   const handleRegister = async () => {
+    const registerBody: UserVM = { username, email, password, rePassword };
     try {
-      const res = await fetch("http://localhost:5002/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password, rePassword }),
-      });
+      const newUser = await registerServices(registerBody); // axios service call
+      console.log(newUser.id, newUser.username);
 
-      const data = await res.json();
+      alert(newUser.message || "User registered successfully!");
 
-      if (res.ok) {
-        // or we can use -->    (data.message === "User logged in successfully!")
-        alert("User registered successfully!");
-
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setRePassword("");
-      } else {
-        alert(data.message || "Registration failed");
-      }
+      // reset form
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setRePassword("");
     } catch (err) {
-      console.error(err);
-      alert("Something went wrong");
+      console.error("Register error:", err);
+      alert("Registration failed");
     }
   };
 
   return (
     <div>
       <label>Username : </label>
-      <input value={username} onChange={(e) => setUsername(e.target.value)} />
+      <input
+        type="text"
+        value={username}
+        placeholder="Enter Username"
+        onChange={(e) => setUsername(e.target.value)}
+      />
 
       <label>Email : </label>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input
+        type="email"
+        value={email}
+        placeholder="Enter E-mail"
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
       <label>Password : </label>
       <input
         type="password"
         value={password}
+        placeholder="Enter password"
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <label>rePassword : </label>
+      <label>Re-enter Password : </label>
       <input
         type="password"
+        placeholder="Re-Enter your password"
         value={rePassword}
         onChange={(e) => setRePassword(e.target.value)}
       />
 
       <button onClick={handleRegister}>Submit</button>
-       <Link href={"/login"}>Go to Login</Link>
+      <Link href={"/login"}>Already have an account ? Log in</Link>
     </div>
   );
 };

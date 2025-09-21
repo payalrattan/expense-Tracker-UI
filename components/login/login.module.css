@@ -7,7 +7,7 @@
 .infoSection {
   flex: 1;
   background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
-  color: white;
+  color: #444;
   padding: 4rem;
   display: flex;
   flex-direction: column;

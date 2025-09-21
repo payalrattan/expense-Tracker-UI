@@ -1,13 +1,8 @@
-import { LoginForm } from "@/components/login/Login";
+import { LoginPage } from "@/components/login/LoginPage";
 export default function Home() {
   return (
     <div>
-      <LoginForm/>
+      <LoginPage/>
     </div>
   );
 }
-
-
-
-
-

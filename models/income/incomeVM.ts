@@ -1,7 +1,8 @@
 export interface IncomeVM {
+  _id?: string;   // MongoDB ID
+  userId?: string;
   amount: number;
   source: string;
-  description: string;
+  description?: string;
   date: string;
-  userId: string; // the logged-in user's ID
 }

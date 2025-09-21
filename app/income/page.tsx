@@ -1,13 +1,13 @@
 "use client";
 
-import { Income as IncomeComponent } from "@/components/income/Income";
-
-
-export default function Income() {
+import { Income } from "@/components/income/Income";
+export default function IncomePage() {
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Total Income</h1>
-      <IncomeComponent />
+    <div>
+      <center>
+        <h1> Income Page</h1>
+      </center>
+      <Income />
     </div>
   );
 }
