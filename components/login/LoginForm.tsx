@@ -8,29 +8,53 @@ import styles from "./login.module.css";
 
 export const LoginForm = () => {
   const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(""); // for non-blocking messages
 
-  //function to handle login submit button
-  const handleLogin = async () => {
+  const handleLogin = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!email || !password) {
+      setMessage("Please enter both email and password");
+      return;
+    }
+
     try {
+      setLoading(true);
       const user = await loginServices(email, password);
-      console.log(user);
+
+      // save user info
       localStorage.setItem("id", user.id);
-      localStorage.setItem("name", user.username);
-      alert(`Welcome, ${user.username}!`);
+      localStorage.setItem("username", user.username);
+
+      // show welcome message in UI
+      setMessage(`Welcome, ${user.username}! Redirecting to dashboard...`);
+
+      // reset form
       setEmail("");
       setPassword("");
-      router.push("/dashboard");
-    } catch (err) {
-      alert("Login failed");
+
+      // redirect after short delay
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 500);
+    } catch (err: any) {
       console.error("Login error:", err);
+      setMessage(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form className={styles.loginForm}>
+    <form className={styles.loginForm} onSubmit={handleLogin}>
+      {message && (
+        <p style={{ color: "green", marginBottom: "10px" }}>{message}</p>
+      )}
+
       <label>Email:</label>
       <input
         type="email"
@@ -43,17 +67,17 @@ export const LoginForm = () => {
       <label>Password:</label>
       <input
         type="password"
-        placeholder="password"
+        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
       />
 
-      <button type="button" onClick={handleLogin}>
-        Submit
+      <button type="submit" disabled={loading}>
+        {loading ? "Logging in..." : "Login"}
       </button>
 
-      <Link href="/register">Do not have an account?Sign up</Link>
+      <Link href="/register">Do not have an account? Sign up</Link>
     </form>
   );
 };

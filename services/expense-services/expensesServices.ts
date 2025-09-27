@@ -1,26 +1,24 @@
 import { axiosService } from "@/data/api/httpCommon";
-import { ExpensesVM } from "@/models/expences/expensesVM";
+import { ExpensesVM } from "@/models/expenses/expensesVM";
 
-// service to get all expenses
+// Service to get all expenses
 export const getExpenses = async () => {
   const result = await axiosService.get("expenses");
-  console.log(result);
-  console.log(result.data);
-  return result.data;
+  return result.data; // returns array of expenses
 };
 
-// service to get expense by id
+// Service to get expense by ID
 export const getExpenseById = async (id: string | number) => {
-  const path = `expenses/by-id/${id}`;
+  const path = `expenses/${id}`;
   const result = await axiosService.get(path);
-  return result.data;
+  return result.data; // returns single expense object
 };
 
-// create expense
+// Service to create a new expense
 export const createExpense = async (body: ExpensesVM) => {
   try {
     const response = await axiosService.post("expenses", body);
-    console.log("expense created", response.data);
+    console.log("Expense created", response.data);
     return response.data;
   } catch (error) {
     console.log("Error creating expense", error);
@@ -28,9 +26,27 @@ export const createExpense = async (body: ExpensesVM) => {
   }
 };
 
-// delete expense by id
-export const deleteExpenseById = async (id: string | number) => {
+// Service to delete expense by ID
+export const deleteExpenseById = async (id: string) => {
   const path = `expenses/${id}`;
   const result = await axiosService.delete(path);
   return result.data;
+};
+
+// Service to update expense
+export const updateExpenseById = async (id: string, expense: ExpensesVM) => {
+  const response = await axiosService.put(`expenses/${id}`, expense);
+  return response.data;
+};
+
+// Get expenses by category
+export const getExpensesByCategory = async (category: string) => {
+  const response = await axiosService.get(`expenses/category/${category}`);
+  return response.data;
+};
+
+// Get all expenses of a specific user
+export const getUserExpenses = async (userId: string) => {
+  const response = await axiosService.get(`expenses/user/${userId}`);
+  return response.data;
 };

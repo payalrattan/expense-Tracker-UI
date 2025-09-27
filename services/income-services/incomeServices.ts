@@ -46,3 +46,9 @@ export const getIncomeBySource = async (source: string) => {
   const response = await axiosService.get(`/income/source/${source}`);
   return response.data;
 };
+
+// Get all income of a specific user
+export const getUserIncome = async (userId: string) => {
+  const response = await axiosService.get(`expenses/user/${userId}`);
+  return response.data;
+};
