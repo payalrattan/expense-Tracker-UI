@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { LogoutForm } from "@/components/logout/Logout";
 import { verifyServices } from "@/services/user-services/userServices";
 import { Income } from "@/components/income/Income";
-import { Expenses } from "@/components/expenses/Expenses";
+import { Expenses } from "@/components/expenses/expenses";
 import SummaryDashboard from "./summarydashboard/page";
 
 export default function Dashboard() {

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Income } from "@/components/income/Income";
-import { Expenses } from "@/components/expenses/Expenses";
+import { Expenses } from "@/components/expenses/expenses";
 import { getIncome } from "@/services/income-services/incomeServices";
 import { getExpenses } from "@/services/expense-services/expensesServices";
 import {

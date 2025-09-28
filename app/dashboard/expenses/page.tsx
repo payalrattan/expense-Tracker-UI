@@ -1,6 +1,6 @@
 "use client";
 
-import { Expenses } from "@/components/expenses/Expenses";
+import { Expenses } from "@/components/expenses/expenses";
 // import { useState } from "react";
 
 export default function ExpensePage() {
