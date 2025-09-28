@@ -15,10 +15,9 @@ export const registerServices = async (body: UserVM) => {
 
 // Verify
 export const verifyServices = async () => {
-  const response = await axiosService.get("verify"); // sends cookie automatically
+  const response = await axiosService.get("/verify"); // sends cookie automatically
   return response.data;
 };
-
 
 // Logout
 export const logoutServices = async () => {
