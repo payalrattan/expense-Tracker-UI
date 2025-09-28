@@ -3,5 +3,6 @@ export interface ExpensesVM {
   category: string;
   description: string;
   date: string;
-  userId: string; // the logged-in user's ID
+  userId: string;
+  _id?: string;
 }
