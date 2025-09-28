@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: expense-tracker-frontend
+    env: node
+    plan: free
+    buildCommand: |
+      npm install
+      npm run build
+    startCommand: |
+      npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: https://expense-tracker-backend-6o90.onrender.com # 👈 your backend URL
