@@ -3,7 +3,7 @@ import { IncomeVM } from "@/models/income/incomeVM";
 
 // Service to get all incomes
 export const getIncome = async () => {
-  const result = await axiosService.get("income");
+  const result = await axiosService.get("/api/income");
   console.log(result);
   console.log(result.data);
   return result.data; // returns array of incomes
@@ -19,7 +19,7 @@ export const getIncomeById = async (id: string | number) => {
 // Service to create a new income
 export const createIncome = async (body: IncomeVM) => {
   try {
-    const response = await axiosService.post("income", body);
+    const response = await axiosService.post("/api/income", body);
     console.log("Income created", response.data);
     return response.data;
   } catch (error) {
@@ -37,18 +37,18 @@ export const deleteIncomeById = async (id: string) => {
 
 //service to update income
 export const updateIncomeById = async (id: string, income: IncomeVM) => {
-  const response = await axiosService.put(`/income/${id}`, income);
+  const response = await axiosService.put(`/api/income/${id}`, income);
   return response.data;
 };
 
 // get incomes by source 
 export const getIncomeBySource = async (source: string) => {
-  const response = await axiosService.get(`/income/source/${source}`);
+  const response = await axiosService.get(`/api/income/source/${source}`);
   return response.data;
 };
 
 // Get all income of a specific user
 export const getUserIncome = async (userId: string) => {
-  const response = await axiosService.get(`expenses/user/${userId}`);
+  const response = await axiosService.get(`/api/expenses/user/${userId}`);
   return response.data;
 };

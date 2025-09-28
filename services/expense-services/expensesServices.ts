@@ -3,7 +3,7 @@ import { ExpensesVM } from "@/models/expenses/expensesVM";
 
 // Service to get all expenses
 export const getExpenses = async () => {
-  const result = await axiosService.get("expenses");
+  const result = await axiosService.get("/api/expenses");
   return result.data; // returns array of expenses
 };
 
@@ -17,7 +17,7 @@ export const getExpenseById = async (id: string | number) => {
 // Service to create a new expense
 export const createExpense = async (body: ExpensesVM) => {
   try {
-    const response = await axiosService.post("expenses", body);
+    const response = await axiosService.post("/api/expenses", body);
     console.log("Expense created", response.data);
     return response.data;
   } catch (error) {
@@ -35,18 +35,18 @@ export const deleteExpenseById = async (id: string) => {
 
 // Service to update expense
 export const updateExpenseById = async (id: string, expense: ExpensesVM) => {
-  const response = await axiosService.put(`expenses/${id}`, expense);
+  const response = await axiosService.put(`/api/expenses/${id}`, expense);
   return response.data;
 };
 
 // Get expenses by category
 export const getExpensesByCategory = async (category: string) => {
-  const response = await axiosService.get(`expenses/category/${category}`);
+  const response = await axiosService.get(`/api/expenses/category/${category}`);
   return response.data;
 };
 
 // Get all expenses of a specific user
 export const getUserExpenses = async (userId: string) => {
-  const response = await axiosService.get(`expenses/user/${userId}`);
+  const response = await axiosService.get(`/api/expenses/user/${userId}`);
   return response.data;
 };
