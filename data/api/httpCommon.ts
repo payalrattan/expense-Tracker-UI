@@ -1,8 +1,8 @@
 import axios from "axios";
-import { BASE_URL } from "@/data/expenseTrackerAPI/expenseTrackerApi";
+// import { NEXT_PUBLIC_API_URL } from "@/data/expenseTrackerAPI/expenseTrackerApi";
 
 export const axiosService = axios.create({
-  baseURL: BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
