@@ -7,7 +7,7 @@ import {
   updateExpenseById,
   deleteExpenseById,
 } from "@/services/expense-services/expensesServices";
-import styles from "./Expenses.module.css"; // ⬅️ Import CSS module
+import styles from "./expenses.module.css"; // ⬅️ Import CSS module
 
 export const Expenses = ({
   onTotalExpense,
@@ -69,7 +69,8 @@ export const Expenses = ({
 
       // Sort
       if (sort === "amountAsc") expenseData.sort((a, b) => a.amount - b.amount);
-      if (sort === "amountDesc") expenseData.sort((a, b) => b.amount - a.amount);
+      if (sort === "amountDesc")
+        expenseData.sort((a, b) => b.amount - a.amount);
       if (sort === "dateAsc")
         expenseData.sort(
           (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
