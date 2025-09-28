@@ -39,11 +39,9 @@ export const LoginForm = () => {
       setTimeout(() => {
         router.push("/dashboard");
       }, 500);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Login error:", err);
-      setMessage(
-        err.response?.data?.message || "Login failed. Please try again."
-      );
+      setMessage(message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
