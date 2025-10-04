@@ -8,7 +8,7 @@ import {
   deleteExpenseById,
 } from "@/services/expense-services/expensesServices";
 import { ExpensesGraph } from "./ExpenseGraph";
-import { Form } from "@/components/formComponent/Form";
+import { FormTransaction } from "@/components/common/FormTransaction";
 import styles from "./expense.module.css";
 
 export const Expenses = ({
@@ -184,7 +184,7 @@ export const Expenses = ({
   return (
     <div className={styles.expensesContainer}>
       <h2>{updateExpenseItem ? "Update Expense" : "Add Expense"}</h2>
-      <Form
+      <FormTransaction
         type="expense"
         categoriesOrSources={expenseCategories}
         formData={formData}
@@ -224,7 +224,6 @@ export const Expenses = ({
       </div>
 
       <h3>Total Expense: {totalExpense}</h3>
-
       <div className={styles.expenseTable}>
         <table>
           <thead>
@@ -257,4 +256,5 @@ export const Expenses = ({
       </div>
     </div>
   );
+};
 };
