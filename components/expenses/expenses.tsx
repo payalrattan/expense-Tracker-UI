@@ -7,7 +7,9 @@ import {
   updateExpenseById,
   deleteExpenseById,
 } from "@/services/expense-services/expensesServices";
-import styles from "./expenses.module.css"; // ⬅️ Import CSS module
+import { ExpensesGraph } from "./ExpenseGraph";
+import { Form } from "@/components/formComponent/Form";
+import styles from "./expense.module.css";
 
 export const Expenses = ({
   onTotalExpense,
@@ -180,75 +182,21 @@ export const Expenses = ({
   };
 
   return (
-    <div>
+    <div className={styles.expensesContainer}>
       <h2>{updateExpenseItem ? "Update Expense" : "Add Expense"}</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label>Amount</label>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-          required
-        />
+      <Form
+        type="expense"
+        categoriesOrSources={expenseCategories}
+        formData={formData}
+        otherValue={otherCategory}
+        setOtherValue={setOtherCategory}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        updateItem={updateExpenseItem}
+        message={message}
+      />
 
-        <label>Category</label>
-        <select
-          name="category"
-          value={formData.category}
-          onChange={(e) => {
-            handleChange(e);
-            if (e.target.value !== "Other") setOtherCategory("");
-          }}
-          required
-        >
-          <option value="" disabled>
-            Select category
-          </option>
-          {expenseCategories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
-
-        {formData.category === "Other" && (
-          <input
-            type="text"
-            placeholder="Enter other category"
-            value={otherCategory}
-            onChange={(e) => setOtherCategory(e.target.value)}
-            required
-          />
-        )}
-
-        <label>Description</label>
-        <input
-          type="text"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-
-        <label>Date</label>
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          required
-        />
-
-        <button type="submit">
-          {updateExpenseItem ? "Update Expense" : "Add Expense"}
-        </button>
-      </form>
-
-      {message && <p className={styles.message}>{message}</p>}
-
-      <div className={styles.controls}>
+      <div>
         <label>Filter by Category: </label>
         <select
           value={filterCategory}
@@ -277,31 +225,36 @@ export const Expenses = ({
 
       <h3>Total Expense: {totalExpense}</h3>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Edit/Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((exp) => (
-            <tr key={exp._id}>
-              <td>{exp.amount}</td>
-              <td>{exp.category}</td>
-              <td>{exp.description}</td>
-              <td>{new Date(exp.date).toLocaleDateString()}</td>
-              <td>
-                <button onClick={() => handleEdit(exp)}>Edit</button>
-                <button onClick={() => handleDelete(exp._id!)}>Delete</button>
-              </td>
+      <div className={styles.expenseTable}>
+        <table>
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Date</th>
+              <th>Edit/Delete</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {expenses.map((exp) => (
+              <tr key={exp._id}>
+                <td>{exp.amount}</td>
+                <td>{exp.category}</td>
+                <td>{exp.description}</td>
+                <td>{new Date(exp.date).toLocaleDateString()}</td>
+                <td>
+                  <button onClick={() => handleEdit(exp)}>Edit</button>
+                  <button onClick={() => handleDelete(exp._id!)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className={styles.expenseGraphSection}>
+        <ExpensesGraph expenses={expenses} />
+      </div>
     </div>
   );
 };

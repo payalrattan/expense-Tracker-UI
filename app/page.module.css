@@ -1,100 +1,45 @@
-/* Layouts */
+/* Dashboard.module.css */
+
 .container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 32px;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  min-height: calc(100vh - 64px);
-  background: linear-gradient(135deg, #e3fcec 0%, #e3e7ed 100%);
-}
-
-.flexRow {
-  display: flex;
-  gap: 32px;
-}
-
-.flexColumn {
   display: flex;
   flex-direction: column;
-}
-
-.fullHeight {
   height: 100vh;
   width: 100vw;
+  background: linear-gradient(135deg, #e3fcec 0%, #e3e7ed 100%);
+  font-family: "Segoe UI", Arial, sans-serif;
   overflow: hidden;
 }
 
-.rightPanel {
-  flex: 1;
-  padding: 32px 0;
-  overflow: auto;
+.main {
   display: flex;
-  flex-direction: column;
-  background: linear-gradient(135deg, #e3fcec 0%, #e3e7ed 100%);
-  min-height: 100vh;
-}
-
-.rightPanelInner {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 32px;
-  height: 100%;
   flex: 1;
+  min-height: 0;
 }
 
-/* Left Sidebar */
-.sidebar {
+/* Left Panel */
+.leftPanel {
   width: 260px;
-  min-width: 220px;
+  background: linear-gradient(135deg, #38a169 0%, #3182ce 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 32px 16px;
-  background: linear-gradient(135deg, #38a169 0%, #3182ce 100%);
+  min-width: 220px;
   box-shadow: 2px 0 16px rgba(0, 0, 0, 0.06);
-}
-
-.profileContainer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.profilePic {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-  border: 2px solid #fff;
-  background: #fff;
-  position: relative;
-}
-
-.logoutDropdown {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  z-index: 10;
-  min-width: 120px;
 }
 
 .username {
   margin: 0;
   color: #fff;
-  font-weight: 600;
-  font-size: 22px;
+  font-weight: 900;
+  font-size: 30px;
+  text-transform:capitalize;
 }
 
 .navButton {
   display: block;
   width: 100%;
   margin-bottom: 18px;
-  color: #fff;
   border: none;
   border-radius: 8px;
   padding: 14px 0;
@@ -108,92 +53,22 @@
   background: linear-gradient(90deg, #38a169 60%, #3182ce 100%);
 }
 
-/* Footer */
-.footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100vw;
-  background: #fff;
-  border-top: 1px solid #e0e0e0;
-  text-align: center;
-  color: #666;
-  font-size: 16px;
-  padding: 16px 0;
-  z-index: 100;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
-}
-
-/* Dashboard Cards */
-.card {
+/* Right Panel */
+.rightPanel {
   flex: 1;
-  min-width: 200px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  padding: 24px;
-  text-align: center;
-  border: 2px solid transparent;
+  padding: 32px 0;
+  overflow: auto;
+  background: linear-gradient(135deg, #e3fcec 0%, #e3e7ed 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.incomeCard {
-  background: #e6fffa;
-  border-color: #38a169;
-  color: #38a169;
+.contentWrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 50%;
+  flex: 1;
 }
 
-.expenseCard {
-  background: #fff5f5;
-  border-color: #e53e3e;
-  color: #e53e3e;
-}
-
-.balanceCard {
-  background: #ebf8ff;
-  border-color: #3182ce;
-  color: #3182ce;
-}
-
-.cardTitle {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.cardAmount {
-  font-size: 28px;
-  font-weight: 600;
-  margin-top: 8px;
-}
-
-/* Headings */
-.h1Center {
-  text-align: center;
-  font-weight: 700;
-  font-size: 32px;
-  margin-bottom: 32px;
-  letter-spacing: 1px;
-}
-
-.h1Income {
-  color: #38a169;
-}
-
-.h1Expense {
-  color: #3182ce;
-}
-
-.h3Center {
-  text-align: center;
-  font-weight: 600;
-  font-size: 22px;
-  color: #3182ce;
-  margin-bottom: 24px;
-}
-
-/* Chart container */
-.chartContainer {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(49,130,206,0.08);
-  padding: 32px;
-  margin-bottom: 32px;
-}

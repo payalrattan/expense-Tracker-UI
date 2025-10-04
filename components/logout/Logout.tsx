@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { logoutServices } from "@/services/user-services/userServices";
+import styles from "./LogoutForm.module.css"; 
 
 export const LogoutForm = () => {
   const router = useRouter();
@@ -15,5 +16,5 @@ export const LogoutForm = () => {
     }
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>;
 };

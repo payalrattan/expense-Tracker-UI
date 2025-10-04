@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import styles from "@/components/expenses/expenses.module.css"; // shared CSS
 import { IncomeVM } from "@/models/income/incomeVM";
 import {
   getIncome,
@@ -8,10 +7,15 @@ import {
   updateIncomeById,
   deleteIncomeById,
 } from "@/services/income-services/incomeServices";
+import { IncomeGraph } from "./IncomeGraph";
+import { Form } from "@/components/formComponent/Form";
+import styles from "./Income.module.css";
 
 export const Income = ({
   onTotalIncome,
-}: { onTotalIncome?: (total: number) => void } = {}) => {
+}: {
+  onTotalIncome?: (total: number, transactions: IncomeVM[]) => void;
+} = {}) => {
   const [incomes, setIncomes] = useState<IncomeVM[]>([]);
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [message, setMessage] = useState<string | null>(null);
@@ -79,7 +83,7 @@ export const Income = ({
         0
       );
       setTotalIncome(total);
-      if (onTotalIncome) onTotalIncome(total);
+      if (onTotalIncome) onTotalIncome(total, incomeData);
       setMessage(
         incomeData.length === 0 ? "No incomes found for selected source." : null
       );
@@ -167,129 +171,81 @@ export const Income = ({
   };
 
   return (
-    <div>
+    <div className={styles.incomeContainer}>
       <h2>{updateIncome ? "Update Income" : "Add Income"}</h2>
+      <Form
+        type="income"
+        categoriesOrSources={incomeSources}
+        formData={formData}
+        otherValue={otherSource}
+        setOtherValue={setOtherSource}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        updateItem={updateIncome}
+        message={message}
+      />
 
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label>Amount</label>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-          required
-        />
+      <div className={styles.incomeTable}>
+        <div>
+          <label>Filter by Source:</label>
+          <select
+            value={filterSource}
+            onChange={(e) => setFilterSource(e.target.value)}
+          >
+            <option value="">All</option>
+            {incomeSources.map((src) => (
+              <option key={src} value={src}>
+                {src}
+              </option>
+            ))}
+          </select>
 
-        <label>Source</label>
-        <select
-          name="source"
-          value={formData.source}
-          onChange={(e) => {
-            handleChange(e);
-            if (e.target.value !== "Other") setOtherSource("");
-          }}
-          required
-        >
-          <option value="" disabled>
-            Select source
-          </option>
-          {incomeSources.map((src) => (
-            <option key={src} value={src}>
-              {src}
-            </option>
-          ))}
-        </select>
+          <label>Sort by:</label>
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="">None</option>
+            <option value="amountAsc">Amount (Low to High)</option>
+            <option value="amountDesc">Amount (High to Low)</option>
+            <option value="dateAsc">Date (Older to Newer)</option>
+            <option value="dateDesc">Date (Newer to Older)</option>
+          </select>
+        </div>
 
-        {formData.source === "Other" && (
-          <input
-            type="text"
-            placeholder="Enter other source"
-            value={otherSource}
-            onChange={(e) => setOtherSource(e.target.value)}
-            required
-          />
-        )}
+        <h3>Total Income: {totalIncome}</h3>
 
-        <label>Description</label>
-        <input
-          type="text"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-
-        <label>Date</label>
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          required
-        />
-
-        <button type="submit">
-          {updateIncome ? "Update Income" : "Add Income"}
-        </button>
-      </form>
-
-      {message && <p className={styles.message}>{message}</p>}
-
-      <div className={styles.filterSort}>
-        <label>Filter by Source:</label>
-        <select
-          value={filterSource}
-          onChange={(e) => setFilterSource(e.target.value)}
-        >
-          <option value="">All</option>
-          {incomeSources.map((src) => (
-            <option key={src} value={src}>
-              {src}
-            </option>
-          ))}
-        </select>
-
-        <label>Sort by:</label>
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-        >
-          <option value="">None</option>
-          <option value="amountAsc">Amount (Low to High)</option>
-          <option value="amountDesc">Amount (High to Low)</option>
-          <option value="dateAsc">Date (Older to Newer)</option>
-          <option value="dateDesc">Date (Newer to Older)</option>
-        </select>
-      </div>
-
-      <h3>Total Income: {totalIncome}</h3>
-
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Amount</th>
-            <th>Source</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Edit/Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {incomes.map((income) => (
-            <tr key={income._id}>
-              <td>{income.amount}</td>
-              <td>{income.source}</td>
-              <td>{income.description}</td>
-              <td>{new Date(income.date).toLocaleDateString()}</td>
-              <td>
-                <button onClick={() => handleEdit(income)}>Edit</button>
-                <button onClick={() => handleDelete(income._id!)}>Delete</button>
-              </td>
+        <table>
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Source</th>
+              <th>Description</th>
+              <th>Date</th>
+              <th>Edit/Delete</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {incomes.map((income) => (
+              <tr key={income._id}>
+                <td>{income.amount}</td>
+                <td>{income.source}</td>
+                <td>{income.description}</td>
+                <td>{new Date(income.date).toLocaleDateString()}</td>
+                <td>
+                  <button onClick={() => handleEdit(income)}>Edit</button>
+                  <button onClick={() => handleDelete(income._id!)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className={styles.graphSection}>
+        <IncomeGraph incomes={incomes} />
+      </div>
     </div>
   );
 };

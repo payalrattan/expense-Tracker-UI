@@ -1,0 +1,46 @@
+/* Reports.module.css */
+
+/* Main container for the Reports component */
+.reportsContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings inside reports */
+.reportsContainer h2 {
+  color: #0070f3;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Paragraphs for totals or messages */
+.reportsContainer p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Container for charts */
+.chartContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Individual chart wrapper */
+.singleChart {
+  flex: 1 1 300px; /* responsive width */
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
