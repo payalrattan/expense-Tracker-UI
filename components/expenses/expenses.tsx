@@ -257,4 +257,3 @@ export const Expenses = ({
     </div>
   );
 };
-};
