@@ -17,7 +17,7 @@ type FormProps = {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  updateItem: any;
+  updateItem: boolean;
   message: string | null;
 };
 

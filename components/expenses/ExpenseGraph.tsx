@@ -1,7 +1,7 @@
 "use client";
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import styles from "@/components/expenses/ExpenseGraph.module.css";
+import styles from "@/components/expenses/expenseGraph.module.css";
 
 interface ExpenseGraphProps {
   expenses: { category: string; amount: number }[];
@@ -9,7 +9,8 @@ interface ExpenseGraphProps {
 
 export function ExpensesGraph({ expenses }: ExpenseGraphProps) {
   // Group expenses by category and sum amounts
-  const expenseData = expenses.reduce((acc: any[], curr) => {
+  type GroupedExpense = { category: string; amount: number };
+  const expenseData = expenses.reduce((acc: GroupedExpense[], curr) => {
     const found = acc.find((item) => item.category === curr.category);
     if (found) {
       found.amount += curr.amount;

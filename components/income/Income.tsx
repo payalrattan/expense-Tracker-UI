@@ -9,7 +9,7 @@ import {
 } from "@/services/income-services/incomeServices";
 import { IncomeGraph } from "./IncomeGraph";
 import { Form } from "@/components/formComponent/Form";
-import styles from "@/components/income/Income.module.css";
+import styles from "@/components/income/income.module.css";
 
 export const Income = ({
   onTotalIncome,
@@ -166,7 +166,7 @@ export const Income = ({
         setOtherValue={setOtherSource}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        updateItem={updateIncome}
+        updateItem={!!updateIncome}
         message={message}
       />
 
