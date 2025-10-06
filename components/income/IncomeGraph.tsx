@@ -1,7 +1,7 @@
 "use client";
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import styles from "./IncomeGraph.module.css";
+import styles from "@/components/income/incomeGraph.module.css";
 
 interface IncomeGraphProps {
   incomes: { source: string; amount: number }[];

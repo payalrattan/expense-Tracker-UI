@@ -9,7 +9,7 @@ import {
 } from "@/services/income-services/incomeServices";
 import { IncomeGraph } from "./IncomeGraph";
 import { Form } from "@/components/formComponent/Form";
-import styles from "./Income.module.css";
+import styles from "@/components/income/Income.module.css";
 
 export const Income = ({
   onTotalIncome,

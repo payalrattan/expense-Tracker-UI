@@ -1,7 +1,7 @@
 "use client";
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import styles from "./ExpenseGraph.module.css";
+import styles from "@/components/expenses/ExpenseGraph.module.css";
 
 interface ExpenseGraphProps {
   expenses: { category: string; amount: number }[];
