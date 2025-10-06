@@ -58,9 +58,7 @@ export const Income = ({
 
       if (source) {
         if (source === "Other") {
-          incomeData = incomeData.filter(
-            (income) => !incomeSources.includes(income.source)
-          );
+          incomeData = incomeData.filter((income) => !incomeSources.includes(income.source));
         } else {
           incomeData = incomeData.filter((income) => income.source === source);
         }
@@ -68,34 +66,21 @@ export const Income = ({
 
       if (sort === "amountAsc") incomeData.sort((a, b) => a.amount - b.amount);
       if (sort === "amountDesc") incomeData.sort((a, b) => b.amount - a.amount);
-      if (sort === "dateAsc")
-        incomeData.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-        );
-      if (sort === "dateDesc")
-        incomeData.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
+      if (sort === "dateAsc")incomeData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      if (sort === "dateDesc")incomeData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
       setIncomes(incomeData);
-      const total = incomeData.reduce(
-        (sum, currentIncome) => sum + currentIncome.amount,
-        0
-      );
+      const total = incomeData.reduce((sum, currentIncome) => sum + currentIncome.amount,0);
       setTotalIncome(total);
       if (onTotalIncome) onTotalIncome(total, incomeData);
-      setMessage(
-        incomeData.length === 0 ? "No incomes found for selected source." : null
-      );
+      setMessage(incomeData.length === 0 ? "No incomes found for selected source." : null);
     } catch (err) {
       console.error(err);
       setMessage("Failed to fetch incomes");
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = ( e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };

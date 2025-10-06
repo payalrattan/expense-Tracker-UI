@@ -8,7 +8,7 @@ import {
   deleteExpenseById,
 } from "@/services/expense-services/expensesServices";
 import { ExpensesGraph } from "./ExpenseGraph";
-import { FormTransaction } from "@/components/common/FormTransaction";
+import {Form} from "@/components/formComponent/Form";
 import styles from "./expense.module.css";
 
 export const Expenses = ({
@@ -184,7 +184,7 @@ export const Expenses = ({
   return (
     <div className={styles.expensesContainer}>
       <h2>{updateExpenseItem ? "Update Expense" : "Add Expense"}</h2>
-      <FormTransaction
+      <Form
         type="expense"
         categoriesOrSources={expenseCategories}
         formData={formData}
