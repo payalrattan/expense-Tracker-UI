@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { logoutServices } from "@/services/user-services/userServices";
-import styles from "./LogoutForm.module.css"; 
+import styles from "@/components/logout/logoutForm.module.css"; 
 
 export const LogoutForm = () => {
   const router = useRouter();
