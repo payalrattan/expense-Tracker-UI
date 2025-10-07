@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { ExpensesVM } from "@/models/expenses/expensesVM";
 import {
@@ -8,20 +9,20 @@ import {
   deleteExpenseById,
 } from "@/services/expense-services/expensesServices";
 import { ExpensesGraph } from "./ExpensesGraph";
-import {Form} from "@/components/formComponent/Form";
+import { Form } from "@/components/formComponent/Form";
 import styles from "@/components/expenses/expenses.module.css";
 
-export const Expenses = ({
-  onTotalExpense,
-}: { onTotalExpense?: (total: number) => void } = {}) => {
+interface ExpensesProps {
+  onTotalExpense?: (total: number, transactions: ExpensesVM[]) => void;
+}
+
+export const Expenses: React.FC<ExpensesProps> = ({ onTotalExpense }) => {
   const [expenses, setExpenses] = useState<ExpensesVM[]>([]);
   const [totalExpense, setTotalExpense] = useState<number>(0);
   const [message, setMessage] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("");
   const [sortOption, setSortOption] = useState<string>("");
-  const [updateExpenseItem, setUpdateExpenseItem] = useState<ExpensesVM | null>(
-    null
-  );
+  const [updateExpenseItem, setUpdateExpenseItem] = useState<ExpensesVM | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [otherCategory, setOtherCategory] = useState<string>("");
 
@@ -32,14 +33,7 @@ export const Expenses = ({
     date: "",
   });
 
-  const expenseCategories = [
-    "Food",
-    "Transport",
-    "Bills",
-    "Shopping",
-    "Health",
-    "Other",
-  ];
+  const expenseCategories = ["Food", "Transport", "Bills", "Shopping", "Health", "Other"];
 
   useEffect(() => {
     const id = localStorage.getItem("id");
@@ -55,10 +49,8 @@ export const Expenses = ({
     try {
       let expenseData: ExpensesVM[] = await getExpenses();
 
-      // Filter by user
       expenseData = expenseData.filter((exp) => exp.userId === id);
 
-      // Filter by category
       if (category) {
         if (category === "Other") {
           expenseData = expenseData.filter(
@@ -69,40 +61,25 @@ export const Expenses = ({
         }
       }
 
-      // Sort
       if (sort === "amountAsc") expenseData.sort((a, b) => a.amount - b.amount);
-      if (sort === "amountDesc")
-        expenseData.sort((a, b) => b.amount - a.amount);
-      if (sort === "dateAsc")
-        expenseData.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-        );
-      if (sort === "dateDesc")
-        expenseData.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
+      if (sort === "amountDesc") expenseData.sort((a, b) => b.amount - a.amount);
+      if (sort === "dateAsc") expenseData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      if (sort === "dateDesc") expenseData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-      const total = expenseData.reduce(
-        (sum, current) => sum + current.amount,
-        0
-      );
+      const total = expenseData.reduce((sum, current) => sum + current.amount, 0);
       setExpenses(expenseData);
       setTotalExpense(total);
-      if (onTotalExpense) onTotalExpense(total);
-      setMessage(
-        expenseData.length === 0
-          ? "No expenses found for selected category."
-          : null
-      );
+
+      if (onTotalExpense) onTotalExpense(total, expenseData);
+
+      setMessage(expenseData.length === 0 ? "No expenses found for selected category." : null);
     } catch (err) {
       console.error(err);
       setMessage("Failed to fetch expenses");
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -117,10 +94,11 @@ export const Expenses = ({
       return;
     }
 
-    if (!formData.description || formData.description.trim() === "") {
-      setMessage("Description cannot be empty or only spaces");
+    if (!formData.description.trim()) {
+      setMessage("Description cannot be empty");
       return;
     }
+
     if (formData.category === "Other" && !otherCategory.trim()) {
       setMessage("Please enter a custom category");
       return;
@@ -131,8 +109,7 @@ export const Expenses = ({
       amount,
       userId,
       date: new Date(formData.date).toISOString(),
-      category:
-        formData.category === "Other" ? otherCategory : formData.category,
+      category: formData.category === "Other" ? otherCategory : formData.category,
     };
 
     try {
@@ -170,15 +147,11 @@ export const Expenses = ({
     setUpdateExpenseItem(expense);
     setFormData({
       amount: expense.amount.toString(),
-      category: expenseCategories.includes(expense.category)
-        ? expense.category
-        : "Other",
+      category: expenseCategories.includes(expense.category) ? expense.category : "Other",
       description: expense.description || "",
       date: new Date(expense.date).toISOString().slice(0, 10),
     });
-    if (!expenseCategories.includes(expense.category))
-      setOtherCategory(expense.category);
-    else setOtherCategory("");
+    setOtherCategory(expenseCategories.includes(expense.category) ? "" : expense.category);
   };
 
   return (
@@ -192,29 +165,21 @@ export const Expenses = ({
         setOtherValue={setOtherCategory}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        updateItem={updateExpenseItem}
+        updateItem={!!updateExpenseItem}
         message={message}
       />
 
       <div>
         <label>Filter by Category: </label>
-        <select
-          value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-        >
+        <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
           <option value="">All</option>
           {expenseCategories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
+            <option key={cat} value={cat}>{cat}</option>
           ))}
         </select>
 
         <label>Sort by: </label>
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-        >
+        <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
           <option value="">None</option>
           <option value="amountAsc">Amount (Low to High)</option>
           <option value="amountDesc">Amount (High to Low)</option>
@@ -224,6 +189,7 @@ export const Expenses = ({
       </div>
 
       <h3>Total Expense: {totalExpense}</h3>
+
       <div className={styles.expenseTable}>
         <table>
           <thead>
@@ -251,6 +217,7 @@ export const Expenses = ({
           </tbody>
         </table>
       </div>
+
       <div className={styles.expenseGraphSection}>
         <ExpensesGraph expenses={expenses} />
       </div>

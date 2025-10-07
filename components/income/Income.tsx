@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { IncomeVM } from "@/models/income/incomeVM";
 import {
@@ -11,11 +12,11 @@ import { IncomeGraph } from "./IncomeGraph";
 import { Form } from "@/components/formComponent/Form";
 import styles from "@/components/income/income.module.css";
 
-export const Income = ({
-  onTotalIncome,
-}: {
+interface IncomeProps {
   onTotalIncome?: (total: number, transactions: IncomeVM[]) => void;
-} = {}) => {
+}
+
+export const Income: React.FC<IncomeProps> = ({ onTotalIncome }) => {
   const [incomes, setIncomes] = useState<IncomeVM[]>([]);
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [message, setMessage] = useState<string | null>(null);
@@ -32,14 +33,7 @@ export const Income = ({
     date: "",
   });
 
-  const incomeSources = [
-    "Salary",
-    "Freelance",
-    "Investment",
-    "Gift",
-    "Bonus",
-    "Other",
-  ];
+  const incomeSources = ["Salary", "Freelance", "Investment", "Gift", "Bonus", "Other"];
 
   useEffect(() => {
     const id = localStorage.getItem("id");
@@ -66,13 +60,14 @@ export const Income = ({
 
       if (sort === "amountAsc") incomeData.sort((a, b) => a.amount - b.amount);
       if (sort === "amountDesc") incomeData.sort((a, b) => b.amount - a.amount);
-      if (sort === "dateAsc")incomeData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-      if (sort === "dateDesc")incomeData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      if (sort === "dateAsc") incomeData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      if (sort === "dateDesc") incomeData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
       setIncomes(incomeData);
-      const total = incomeData.reduce((sum, currentIncome) => sum + currentIncome.amount,0);
+      const total = incomeData.reduce((sum, currentIncome) => sum + currentIncome.amount, 0);
       setTotalIncome(total);
       if (onTotalIncome) onTotalIncome(total, incomeData);
+
       setMessage(incomeData.length === 0 ? "No incomes found for selected source." : null);
     } catch (err) {
       console.error(err);
@@ -80,7 +75,7 @@ export const Income = ({
     }
   };
 
-  const handleChange = ( e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -95,10 +90,11 @@ export const Income = ({
       return;
     }
 
-    if (!formData.description || formData.description.trim() === "") {
-      setMessage("Description cannot be empty or only spaces");
+    if (!formData.description.trim()) {
+      setMessage("Description cannot be empty");
       return;
     }
+
     if (formData.source === "Other" && !otherSource.trim()) {
       setMessage("Please enter a custom source");
       return;
@@ -151,8 +147,7 @@ export const Income = ({
       description: income.description || "",
       date: new Date(income.date).toISOString().slice(0, 10),
     });
-    if (!incomeSources.includes(income.source)) setOtherSource(income.source);
-    else setOtherSource("");
+    setOtherSource(incomeSources.includes(income.source) ? "" : income.source);
   };
 
   return (
@@ -171,32 +166,22 @@ export const Income = ({
       />
 
       <div className={styles.incomeTable}>
-        <div>
-          <label>Filter by Source:</label>
-          <select
-            value={filterSource}
-            onChange={(e) => setFilterSource(e.target.value)}
-          >
-            <option value="">All</option>
-            {incomeSources.map((src) => (
-              <option key={src} value={src}>
-                {src}
-              </option>
-            ))}
-          </select>
+        <label>Filter by Source:</label>
+        <select value={filterSource} onChange={(e) => setFilterSource(e.target.value)}>
+          <option value="">All</option>
+          {incomeSources.map((src) => (
+            <option key={src} value={src}>{src}</option>
+          ))}
+        </select>
 
-          <label>Sort by:</label>
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="">None</option>
-            <option value="amountAsc">Amount (Low to High)</option>
-            <option value="amountDesc">Amount (High to Low)</option>
-            <option value="dateAsc">Date (Older to Newer)</option>
-            <option value="dateDesc">Date (Newer to Older)</option>
-          </select>
-        </div>
+        <label>Sort by:</label>
+        <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+          <option value="">None</option>
+          <option value="amountAsc">Amount (Low to High)</option>
+          <option value="amountDesc">Amount (High to Low)</option>
+          <option value="dateAsc">Date (Older to Newer)</option>
+          <option value="dateDesc">Date (Newer to Older)</option>
+        </select>
 
         <h3>Total Income: {totalIncome}</h3>
 
@@ -219,15 +204,14 @@ export const Income = ({
                 <td>{new Date(income.date).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => handleEdit(income)}>Edit</button>
-                  <button onClick={() => handleDelete(income._id!)}>
-                    Delete
-                  </button>
+                  <button onClick={() => handleDelete(income._id!)}>Delete</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
       <div className={styles.graphSection}>
         <IncomeGraph incomes={incomes} />
       </div>
