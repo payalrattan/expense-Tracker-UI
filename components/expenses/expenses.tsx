@@ -7,7 +7,7 @@ import {
   updateExpenseById,
   deleteExpenseById,
 } from "@/services/expense-services/expensesServices";
-import { ExpensesGraph } from "./ExpenseGraph";
+import { ExpensesGraph } from "./ExpensesGraph";
 import {Form} from "@/components/formComponent/Form";
 import styles from "@/components/expenses/expense.module.css";
 
