@@ -9,7 +9,7 @@ import {
 } from "@/services/expense-services/expensesServices";
 import { ExpensesGraph } from "./ExpensesGraph";
 import {Form} from "@/components/formComponent/Form";
-import styles from "@/components/expenses/expense.module.css";
+import styles from "@/components/expenses/expenses.module.css";
 
 export const Expenses = ({
   onTotalExpense,
