@@ -7,7 +7,7 @@ import { verifyServices } from "@/services/user-services/userServices";
 import { Income } from "@/components/income/Income";
 import { Expenses } from "@/components/expenses/Expenses";
 import { Reports } from "@/components/Reports/Reports"; 
-import { SummaryDashboard } from "./summary/page";
+import  SummaryDashboard  from "./summary/page";
 import styles from "@/app/page.module.css";
 
 export default function Dashboard() {

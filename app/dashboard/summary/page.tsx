@@ -9,7 +9,7 @@ import { Pie } from "react-chartjs-2";
 // Register Chart.js components for Pie chart
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function SummaryDashboard() {
+export default function SummaryDashboard() {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
 
