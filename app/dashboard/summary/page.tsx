@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Income } from "@/components/income/Income";
-import { Expenses } from "@/components/expenses/Expenses";
+import { Expense } from "@/components/expenses/Expense";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
@@ -13,9 +13,7 @@ export default function SummaryDashboard() {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   const balance = totalIncome - totalExpenses;
 
@@ -56,10 +54,9 @@ export default function SummaryDashboard() {
         <Pie data={chartData} />
       </div>
 
-    
       <div style={{ display: "none" }}>
         <Income onTotalIncome={setTotalIncome} />
-        <Expenses onTotalExpense={setTotalExpenses} />
+        <Expense onTotalExpense={setTotalExpenses} />
       </div>
     </div>
   );

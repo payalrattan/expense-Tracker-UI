@@ -16,7 +16,7 @@ interface ExpensesProps {
   onTotalExpense?: (total: number, transactions: ExpensesVM[]) => void;
 }
 
-export const Expenses: React.FC<ExpensesProps> = ({ onTotalExpense }) => {
+export const Expense: React.FC<ExpensesProps> = ({ onTotalExpense }) => {
   const [expenses, setExpenses] = useState<ExpensesVM[]>([]);
   const [totalExpense, setTotalExpense] = useState<number>(0);
   const [message, setMessage] = useState<string | null>(null);

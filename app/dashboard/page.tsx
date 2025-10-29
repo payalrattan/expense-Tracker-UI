@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ComponentType } from "react";
 import { useRouter } from "next/navigation";
 import { LogoutForm } from "@/components/logout/Logout";
 import { verifyServices } from "@/services/user-services/userServices";
 import { Income } from "@/components/income/Income";
-import { Expenses } from "@/components/expenses/Expenses";
-import { Reports } from "@/components/Reports/Reports";
+import { Expense } from "@/components/expenses/Expense";
+import {Reports} from "@/components/Reports/Reports";
 import SummaryDashboard from "./summary/page";
 import styles from "@/app/page.module.css";
 
+const ReportsComponent = (Reports as unknown) as ComponentType<any>;
+
 // Define transaction types
 interface Transaction {
-  id: string;
+  id?: string;
   amount: number;
   description?: string;
   date?: string;
@@ -26,7 +29,9 @@ export default function Dashboard() {
     _id: string;
     profilePic?: string;
   } | null>(null);
-  const [activeTab, setActiveTab] = useState<"dashboard" | "income" | "expenses" | "reports">("dashboard");
+  const [activeTab, setActiveTab] = useState<
+    "dashboard" | "income" | "expenses" | "reports"
+  >("dashboard");
   const [showLogout, setShowLogout] = useState(false);
 
   // Track total income and expense
@@ -34,8 +39,12 @@ export default function Dashboard() {
   const [totalExpense, setTotalExpense] = useState(0);
 
   // Store individual transactions for Reports
-  const [incomeTransactions, setIncomeTransactions] = useState<Transaction[]>([]);
-  const [expenseTransactions, setExpenseTransactions] = useState<Transaction[]>([]);
+  const [incomeTransactions, setIncomeTransactions] = useState<Transaction[]>(
+    []
+  );
+  const [expenseTransactions, setExpenseTransactions] = useState<Transaction[]>(
+    []
+  );
 
   // Verify user login
   useEffect(() => {
@@ -70,7 +79,9 @@ export default function Dashboard() {
               {["dashboard", "income", "expenses", "reports"].map((tab) => (
                 <button
                   key={tab}
-                  className={`${styles.navButton} ${activeTab === tab ? styles.active : ""}`}
+                  className={`${styles.navButton} ${
+                    activeTab === tab ? styles.active : ""
+                  }`}
                   onClick={() => setActiveTab(tab as typeof activeTab)}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -96,8 +107,11 @@ export default function Dashboard() {
             )}
 
             {activeTab === "expenses" && (
-              <Expenses
-                onTotalExpense={(total: number, transactions: Transaction[]) => {
+              <Expense
+                onTotalExpense={(
+                  total: number,
+                  transactions: Transaction[]
+                ) => {
                   setTotalExpense(total);
                   setExpenseTransactions(transactions);
                 }}
@@ -105,7 +119,7 @@ export default function Dashboard() {
             )}
 
             {activeTab === "reports" && (
-              <Reports
+              <ReportsComponent
                 incomeTransactions={incomeTransactions}
                 expenseTransactions={expenseTransactions}
                 totalIncome={totalIncome}
