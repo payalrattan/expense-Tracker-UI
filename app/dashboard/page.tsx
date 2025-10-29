@@ -11,7 +11,7 @@ import {Reports} from "@/components/Reports/Reports";
 import SummaryDashboard from "./summary/page";
 import styles from "@/app/page.module.css";
 
-const ReportsComponent = (Reports as unknown) as ComponentType<any>;
+const ReportsComponent = Reports as ComponentType<unknown>;
 
 // Define transaction types
 interface Transaction {
